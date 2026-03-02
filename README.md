@@ -1,10 +1,10 @@
-# 🏙️ Barrio N°6 - Evaluación API Canvas 2D
+# 🏙️  Evaluación API Canvas 2D
 
 ![Status](https://img.shields.io/badge/Status-Finalizado-ccff00?style=for-the-badge)
 ![Author](https://img.shields.io/badge/Autor-Leonardo%20Gutiérrez-ffcc00?style=for-the-badge)
 ![Institution](https://img.shields.io/badge/ITP-Sistemas-white?style=for-the-badge)
 
-Este proyecto es una aplicación web interactiva que renderiza un paisaje desértico estilizado titulado **"Barrio N°6"**, desarrollado para la materia de **Graficación** en el **Instituto Tecnológico de Pachuca**. 
+Este proyecto es una aplicación web interactiva que renderiza un paisaje desértico estilizado titulado **"Dibujo API Canvas"**, desarrollado para la materia de **Graficación** en el **Instituto Tecnológico de Pachuca**. 
 
 La interfaz y el diseño visual están fuertemente inspirados en la estética *Urban Cyberpunk* de **Zenless Zone Zero (ZZZ)**, utilizando efectos de neón, líneas de escaneo y un layout tipo monitor industrial.
 
