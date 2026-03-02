@@ -1,150 +1,190 @@
 /**
- * Proyecto: Evaluación API Canvas
- * Alumno: Leonardo
- * Carrera: Ingeniería en Sistemas
- * Institución: Instituto Tecnológico de Pachuca
- * Materia: Graficación
- * Fecha: 1 de marzo de 2026
- * Descripción: Recreación fiel de paisaje urbano retrofuturista nocturno.
- * Se utilizan ciclos para generar un sistema de ventanas detallado y naves con estelas.
+ * main.js - Barrio N°6 (Versión Delineado Suave)
  */
 
-const canvas = document.getElementById('miCanvas');
-const ctx = canvas.getContext('2d');
+window.onload = function() {
+    const canvas = document.getElementById("miCanvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
 
-// --- DATOS DE LOS EDIFICIOS (Para automatizar el dibujo de ventanas) ---
-const edificios = [
-    { x: 30,  w: 60, h: 180, color: "#2e5eaa", techo: "domo",  vColor: "#fcf000" },
-    { x: 100, w: 50, h: 240, color: "#6a329f", techo: "domo",  vColor: "#fcf000" },
-    { x: 170, w: 60, h: 320, color: "#6a329f", techo: "domo",  vColor: "#fcf000" },
-    { x: 245, w: 50, h: 140, color: "#38b449", techo: "rect",  vColor: "#fcf000" },
-    { x: 310, w: 70, h: 350, color: "#2e5eaa", techo: "domo",  vColor: "#fcf000" },
-    { x: 395, w: 55, h: 200, color: "#2e5eaa", techo: "domo",  vColor: "#fcf000" },
-    { x: 470, w: 70, h: 310, color: "#38b449", techo: "pico",  vColor: "#fcf000" },
-    { x: 555, w: 50, h: 120, color: "#38b449", techo: "rect",  vColor: "#fcf000" },
-    { x: 620, w: 60, h: 260, color: "#6a329f", techo: "pico",  vColor: "#fcf000" },
-    { x: 695, w: 65, h: 320, color: "#2e5eaa", techo: "domo",  vColor: "#fcf000" },
-    { x: 775, w: 55, h: 280, color: "#38b449", techo: "pico",  vColor: "#fcf000" }
-];
+    // --- EL CAMBIO CLAVE PARA EL DELINEADO SUAVE ---
+    // Usamos semi-transparencia (0.3 = 30% opacidad) para el efecto "degradado"
+    ctx.strokeStyle = "rgba(51, 26, 5, 0.3)"; 
+    // Reducimos el grosor a lo mínimo (1 pixel)
+    ctx.lineWidth = 1; 
 
-// --- FUNCIONES DE DIBUJO ---
+    // --- FUNCIÓN UTILITARIA PARA SOMBRAS ---
+    function setShadow(active) {
+        if (active) {
+            ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
+            ctx.shadowBlur = 4;
+            ctx.shadowOffsetX = 3;
+            ctx.shadowOffsetY = 4;
+        } else {
+            ctx.shadowColor = "transparent";
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+        }
+    }
 
-function dibujarCieloYFondo() {
-    // Cielo azul profundo
-    ctx.fillStyle = "#1a3a8a";
+    // --- FUNCIONES DE ELEMENTOS (Se mantienen igual, heredan el stroke global) ---
+
+    function drawHouse(x, y, scaleX, scaleY = scaleX, conVentana = true, conPuerta = true) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(scaleX, scaleY);
+        
+        setShadow(true);
+        // Cuerpo
+        ctx.fillStyle = "#c19a6b"; 
+        ctx.fillRect(0, 0, 100, 75);
+        ctx.strokeRect(0, 0, 100, 75); // Delineado suave heredado
+
+        // Techo
+        ctx.fillStyle = "#8b4513"; 
+        ctx.beginPath();
+        ctx.moveTo(-15, 0); ctx.lineTo(50, -45); ctx.lineTo(115, 0); 
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke(); // Delineado suave heredado
+        
+        setShadow(false);
+        
+        // Ventana
+        if (conVentana) {
+            ctx.fillStyle = "white"; 
+            ctx.fillRect(15, 25, 20, 20);
+            ctx.strokeRect(15, 25, 20, 20); // Delineado suave heredado
+        }
+        
+        // Puerta
+        if (conPuerta) {
+            ctx.fillStyle = "#5d3a1a"; 
+            ctx.fillRect(70, 45, 18, 30);
+            ctx.strokeRect(70, 45, 18, 30); // Delineado suave heredado
+        }
+        
+        ctx.restore();
+    }
+
+    function drawCactus(x, y, scale) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(scale, scale);
+        
+        setShadow(true);
+        ctx.fillStyle = "#2d9c2d";
+        const parts = [
+            [0, 0, 22, 100],      // Tronco
+            [-18, 40, 18, 12],    // Brazo Izq 1
+            [-18, 15, 12, 35],    // Brazo Izq 2
+            [22, 55, 18, 12],     // Brazo Der 1
+            [28, 30, 12, 35]      // Brazo Der 2
+        ];
+
+        parts.forEach(p => {
+            ctx.fillRect(...p);
+            ctx.strokeRect(...p); // Delineado suave heredado
+        });
+        
+        setShadow(false);
+        // Brillos (sin delineado)
+        ctx.fillStyle = "#63c363"; 
+        ctx.fillRect(13, 5, 8, 35); 
+        ctx.fillRect(34, 35, 6, 18); 
+        ctx.restore();
+    }
+
+    function drawBush(x, y) {
+        ctx.save();
+        setShadow(true);
+        ctx.fillStyle = "#209024";
+        
+        const parts = [
+            {dx: 18, dy: -15, r: 22}, {dx: 45, dy: -12, r: 20},
+            {dx: 0, dy: 10, r: 25}, {dx: 32, dy: 10, r: 28}, {dx: 62, dy: 10, r: 25}
+        ];
+
+        parts.forEach(p => {
+            ctx.beginPath(); 
+            ctx.arc(x + p.dx, y + p.dy, p.r, 0, Math.PI * 2); 
+            ctx.fill();
+            ctx.stroke(); // Delineado suave heredado
+        });
+        
+        ctx.restore();
+    }
+
+    // --- RENDERIZADO POR CAPAS ---
+
+    // 1. Cielo
+    ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Luna
-    ctx.fillStyle = "white";
-    ctx.beginPath();
-    ctx.arc(620, 100, 70, 0, Math.PI * 2);
+    // 2. Sol
+    const sX = 600, sY = 95;
+    const grad = ctx.createRadialGradient(sX, sY, 40, sX, sY, 90);
+    grad.addColorStop(0, "rgba(255, 223, 0, 1)"); 
+    grad.addColorStop(1, "rgba(255, 223, 0, 0)");
+    ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(sX, sY, 110, 0, Math.PI * 2); ctx.fill();
+    
+    ctx.fillStyle = "#ffdf00"; 
+    ctx.beginPath(); 
+    ctx.arc(sX, sY, 55, 0, Math.PI * 2); 
     ctx.fill();
+    ctx.stroke(); // Delineado suave heredado
 
-    // Estrellas (Círculos pequeños)
-    const estrellas = [[40,40], [150,80], [280,30], [450,110], [750,70], [200,150]];
-    estrellas.forEach(pos => {
-        ctx.beginPath();
-        ctx.arc(pos[0], pos[1], 2, 0, Math.PI * 2);
+    // 3. Montañas
+    ctx.fillStyle = "#607d8b";
+    const mtEquilateral = (x, w, baseY) => {
+        const h = w * (Math.sqrt(3) / 2); 
+        ctx.beginPath(); 
+        ctx.moveTo(x, baseY); 
+        ctx.lineTo(x + w / 2, baseY - h); 
+        ctx.lineTo(x + w, baseY); 
+        ctx.closePath();
         ctx.fill();
-    });
-
-    // Carretera inferior
-    ctx.fillStyle = "#0a1a3a";
-    ctx.fillRect(0, 420, canvas.width, 80);
+        ctx.stroke(); // Delineado suave heredado
+    };
     
-    // Líneas de carretera (Perspectiva)
-    ctx.strokeStyle = "#00f2ff";
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(350, 500); ctx.lineTo(430, 420);
-    ctx.moveTo(450, 500); ctx.lineTo(470, 420);
-    ctx.stroke();
-}
+    mtEquilateral(-20, 320, 300); 
+    mtEquilateral(100, 320, 320); 
+    mtEquilateral(570, 320, 320); 
 
-function dibujarEdificiosYVentanas() {
-    edificios.forEach(ed => {
-        // Cuerpo del edificio
-        ctx.fillStyle = ed.color;
-        ctx.fillRect(ed.x, 420 - ed.h, ed.w, ed.h);
-
-        // Techos (Domo, Pico o Rect)
-        ctx.fillStyle = ed.color;
-        if (ed.techo === "domo") {
-            ctx.beginPath();
-            ctx.arc(ed.x + ed.w/2, 420 - ed.h, ed.w/2, Math.PI, 0);
-            ctx.fill();
-        } else if (ed.techo === "pico") {
-            ctx.beginPath();
-            ctx.moveTo(ed.x, 420 - ed.h);
-            ctx.lineTo(ed.x + ed.w/2, 420 - ed.h - 40);
-            ctx.lineTo(ed.x + ed.w, 420 - ed.h);
-            ctx.fill();
-        }
-
-        // VENTANAS (Ciclos para generar muchas figuras)
-        ctx.fillStyle = ed.vColor;
-        let columnas = 3;
-        let filas = Math.floor(ed.h / 20) - 2;
-        for (let i = 0; i < columnas; i++) {
-            for (let j = 0; j < filas; j++) {
-                ctx.fillRect(ed.x + 10 + (i * 15), (420 - ed.h + 20) + (j * 18), 8, 10);
-            }
-        }
-    });
-}
-
-function dibujarMonorriel() {
-    // Puente (Línea gruesa)
-    ctx.fillStyle = "#00f2ff";
-    ctx.fillRect(0, 310, canvas.width, 10);
-
-    // Columnas de soporte
-    ctx.fillRect(320, 320, 10, 100);
-    ctx.fillRect(520, 320, 10, 100);
-
-    // Vagón del monorriel
-    ctx.fillStyle = "#00c4cc";
-    ctx.fillRect(650, 305, 40, 12);
-}
-
-function dibujarNaves() {
-    const naves = [
-        { x: 100, y: 180, color: "#9b59b6", estela: "#5dade2" },
-        { x: 500, y: 220, color: "#3498db", estela: "#5dade2" },
-        { x: 750, y: 150, color: "#2ecc71", estela: "#5dade2" }
-    ];
-
-    naves.forEach(n => {
-        // Estela de luz
-        let grad = ctx.createLinearGradient(n.x, n.y, n.x - 60, n.y);
-        grad.addColorStop(0, n.estela);
-        grad.addColorStop(1, "transparent");
-        ctx.fillStyle = grad;
-        ctx.fillRect(n.x - 60, n.y + 2, 60, 10);
-
-        // Cuerpo de la nave (Cápsula)
-        ctx.fillStyle = n.color;
+    // Funciones genérica para dunas delineadas
+    const drawDune = (color, startY, cp1x, cp1y, cp2x, cp2y, endY) => {
+        setShadow(true);
+        ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.ellipse(n.x, n.y + 7, 20, 8, 0, 0, Math.PI * 2);
+        ctx.moveTo(0, startY);
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, 800, endY);
+        ctx.lineTo(800, 450); ctx.lineTo(0, 450);
+        ctx.closePath();
         ctx.fill();
-        
-        // Cabina
-        ctx.fillStyle = "#f1c40f";
-        ctx.beginPath();
-        ctx.arc(n.x + 10, n.y + 5, 4, 0, Math.PI * 2);
-        ctx.fill();
-    });
-}
+        ctx.stroke(); // Delineado suave heredado
+        setShadow(false);
+    };
 
-// --- RENDERIZADO ---
+    drawDune("#e5b164", 140, 360, 0, 500, 240, 210); // Duna 1
+    drawDune("#dbb171", 120, 200, 320, 600, 60, 140); // Duna 2
+    drawDune("#ddbb87", 200, 310, 60, 450, 270, 200);  // Duna 3
 
-function renderizar() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    dibujarCieloYFondo();
-    dibujarEdificiosYVentanas();
-    dibujarMonorriel();
-    dibujarNaves();
-}
+    // 7. Suelo
+    ctx.fillStyle = "#dbd299";
+    ctx.fillRect(0, 320, 800, 130);
+    ctx.strokeRect(0, 320, 800, 130); // Delineado suave heredado
 
-window.onload = renderizar;
+    // 8. Elementos
+    drawHouse(180, 280, 0.75, 0.75, false, false);
+    drawHouse(250, 300, 1.00, 0.80);
+    drawHouse(500, 285, 0.75, 0.75, false, false);
+    drawHouse(640, 290, 0.75, 0.75, false, false);
+    drawHouse(560, 305, 1.00);
+
+    drawCactus(80, 250, 1.4);  
+    drawCactus(740, 270, 1.3); 
+
+    drawBush(180, 395);
+    drawBush(650, 405);
+};

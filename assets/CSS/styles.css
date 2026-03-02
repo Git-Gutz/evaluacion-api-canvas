@@ -119,10 +119,10 @@ body.zzz-theme {
 /* 4. ESTILO PARA LOS MEDIOS DENTRO DEL CONTENEDOR (Canvas e Imagen) */
 .zzz-canvas-container canvas,
 .zzz-canvas-container img {
-    /* Estas 3 líneas son la magia para que sean del mismo tamaño exacto */
+    /* Estas 3 líneas garantizan que sean del mismo tamaño exacto */
     width: 100%;
     aspect-ratio: 16 / 9;
-    object-fit: cover;
+    object-fit: contain; /* <-- Cambiado de 'cover' a 'contain' */
     
     background-color: #111; /* Fondo oscuro base */
     border: 1px solid rgba(255, 255, 255, 0.1);
