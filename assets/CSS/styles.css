@@ -1,0 +1,83 @@
+:root {
+    /* Paleta inspirada en Zenless Zone Zero */
+    --zzz-bg: #121212;
+    --zzz-card-bg: #1e1e1e;
+    --zzz-neon-green: #ccff00; /* Ese verde característico */
+    --zzz-neon-yellow: #ffcc00;
+    --zzz-text: #ffffff;
+    --zzz-muted: #888888;
+}
+
+/* Fondo general de la página */
+body.zzz-theme {
+    background-color: var(--zzz-bg);
+    color: var(--zzz-text);
+    font-family: 'Roboto', sans-serif;
+    /* Un degradado sutil en el fondo para que no sea negro plano */
+    background-image: radial-gradient(circle at 50% 0%, #2a2a2a 0%, #121212 70%);
+}
+
+/* Barra de navegación superior */
+.zzz-navbar {
+    background-color: #000000;
+    border-bottom: 4px solid var(--zzz-neon-green);
+    box-shadow: 0 0 20px rgba(204, 255, 0, 0.15);
+}
+
+/* Título principal */
+.zzz-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 2.5rem;
+    color: var(--zzz-neon-green);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+/* Subtítulos de las cajas */
+.zzz-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    color: var(--zzz-neon-yellow);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-bottom: 2px dashed #444;
+    padding-bottom: 12px;
+}
+
+/* Tarjetas contenedoras (efecto consola/arcade) */
+.zzz-card {
+    background-color: var(--zzz-card-bg);
+    border: 2px solid #333;
+    border-radius: 12px;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    height: 100%;
+}
+
+.zzz-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--zzz-neon-green);
+}
+
+/* Cajas donde irán los dibujos/imágenes */
+.zzz-canvas-container {
+    background-color: #050505;
+    border: 1px solid #444;
+    border-radius: 8px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Pie de página */
+.zzz-footer {
+    background-color: #000000;
+    border-top: 2px solid #333;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    color: var(--zzz-muted);
+}
