@@ -1,30 +1,45 @@
+/**
+ * Proyecto: Evaluación API Canvas 2D
+ * Materia: Graficación
+ * Institución: Instituto Tecnológico de Pachuca
+ * Alumno: Leonardo Gutiérrez Jiménez
+ * Matrícula: 24200089
+ * Fecha: 2 de marzo de 2026
+ * Descripción: Hoja de estilos con temática "Urban Cyberpunk" inspirada en ZZZ.
+ * Implementa variables CSS, pseudo-elementos para efectos de neón y 
+ * técnicas de maquetación responsiva con Bootstrap.
+ */
+
+/* --- 1. CONFIGURACIÓN DE VARIABLES GLOBALES --- */
 :root {
-    /* Paleta inspirada en Zenless Zone Zero */
-    --zzz-bg: #121212;
-    --zzz-card-bg: #1e1e1e;
-    --zzz-neon-green: #ccff00; /* Ese verde característico */
-    --zzz-neon-yellow: #ffcc00;
-    --zzz-text: #ffffff;
-    --zzz-muted: #888888;
+    /* Paleta cromática: Basada en el alto contraste y tonos neón del juego */
+    --zzz-bg: #121212;             /* Fondo oscuro principal */
+    --zzz-card-bg: #1e1e1e;        /* Gris intermedio para elevación de tarjetas */
+    --zzz-neon-green: #ccff00;     /* Verde neón "Hollow" característico */
+    --zzz-neon-yellow: #ffcc00;    /* Amarillo de advertencia/interfaz */
+    --zzz-text: #ffffff;           /* Blanco puro para legibilidad */
+    --zzz-muted: #888888;          /* Gris para textos secundarios y footer */
 }
 
-/* Fondo general de la página */
+/* --- 2. ESTILOS DE CUERPO Y ESTRUCTURA --- */
 body.zzz-theme {
     background-color: var(--zzz-bg);
     color: var(--zzz-text);
     font-family: 'Roboto', sans-serif;
-    /* Un degradado sutil en el fondo para que no sea negro plano */
+    /* Efecto de profundidad: Degradado radial que simula una iluminación cenital sutil */
     background-image: radial-gradient(circle at 50% 0%, #2a2a2a 0%, #121212 70%);
 }
 
-/* Barra de navegación superior */
+/* --- 3. COMPONENTES DE INTERFAZ (UI) --- */
+
+/* Barra de navegación con acento de neón */
 .zzz-navbar {
     background-color: #000000;
     border-bottom: 4px solid var(--zzz-neon-green);
-    box-shadow: 0 0 20px rgba(204, 255, 0, 0.15);
+    box-shadow: 0 0 20px rgba(204, 255, 0, 0.15); /* Resplandor exterior */
 }
 
-/* Título principal */
+/* Tipografía de títulos con estilo itálico y pesado */
 .zzz-title {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
@@ -35,7 +50,7 @@ body.zzz-theme {
     font-style: italic;
 }
 
-/* Subtítulos de las cajas */
+/* Subtítulos decorados con borde discontinuo */
 .zzz-subtitle {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
@@ -46,87 +61,95 @@ body.zzz-theme {
     padding-bottom: 12px;
 }
 
-/* Tarjetas contenedoras (efecto consola/arcade) */
+/* --- 4. CONTENEDORES Y TARJETAS --- */
+
+/* Efecto de tarjeta "Arcade": Bordes rígidos y sombras sólidas */
 .zzz-card {
     background-color: var(--zzz-card-bg);
     border: 2px solid #333;
     border-radius: 12px;
+    /* Sombra sólida tipo "Hard-edge" para estilo retro-futurista */
     box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
     transition: transform 0.2s ease, border-color 0.2s ease;
     height: 100%;
 }
 
+/* Feedback visual al pasar el cursor */
 .zzz-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px); /* Elevación */
     border-color: var(--zzz-neon-green);
 }
 
-/* Cajas donde irán los dibujos/imágenes */
+/* --- 5. CONTENEDOR DE VISUALIZACIÓN (CANVAS/IMG) --- */
+
 .zzz-canvas-container {
     background-color: #080808;
     padding: 12px;
-    position: relative;
+    position: relative; /* Necesario para el posicionamiento de los decals ::before/::after */
     overflow: visible;
     border-radius: 8px;
     border: 2px solid #333;
+    /* Triple sombra: Inset para profundidad, y bordes dobles externos */
     box-shadow:
         inset 0 0 10px #000,
         0 0 0 6px #1a1a1a,
         0 0 0 8px #111;
-    /* Centramos el contenido por dentro */
     display: flex;
     align-items: center;
 }
 
-/* 3. DECALS DE NEÓN EN LAS ESQUINAS (Pseudoelementos) */
+/* --- 6. DECALS DE NEÓN (SIMULACIÓN DE INTERFAZ DE GRABACIÓN) --- */
 
-/* Decal Superior Izquierdo: Simulación de "REC" (Rojo neón) */
+/* Decal "REC": Simula una grabación de cámara en vivo */
 .zzz-canvas-container::before {
-    content: '■ REC ■'; /* Texto tipo ZZZ */
+    content: '■ REC ■';
     position: absolute;
     top: -20px;
     left: 10px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: 0.7rem;
-    color: #ff3300; /* Rojo neón intenso */
+    color: #ff3300; /* Rojo de alerta */
     letter-spacing: 2px;
-    text-shadow: 0 0 8px #ff3300; /* Resplandor neón */
+    text-shadow: 0 0 8px #ff3300;
     background-color: #000;
     padding: 2px 8px;
     border-radius: 4px;
     z-index: 10;
 }
 
-/* Decal Inferior Derecho: Simulación de "PLAY" y Líneas de Tracking (Verde neón) */
+/* Decal "PLAY/TRACKING": Refuerza la estética de monitor industrial */
 .zzz-canvas-container::after {
-    content: '|| TRACKING | 00:00:15 | > PLAY'; /* Texto tipo ZZZ */
+    content: '|| TRACKING | 00:00:15 | > PLAY';
     position: absolute;
     bottom: -20px;
     right: 10px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: 0.7rem;
-    color: var(--zzz-neon-green); /* Tu verde neón definido en root */
+    color: var(--zzz-neon-green);
     letter-spacing: 1.5px;
-    text-shadow: 0 0 8px var(--zzz-neon-green); /* Resplandor neón */
+    text-shadow: 0 0 8px var(--zzz-neon-green);
     background-color: #000;
     padding: 2px 8px;
     border-radius: 4px;
     z-index: 10;
 }
 
-/* 4. ESTILO PARA LOS MEDIOS DENTRO DEL CONTENEDOR (Canvas e Imagen) */
+/* --- 7. ESTILOS PARA ELEMENTOS DE RENDERIZADO --- */
+
+
+
 .zzz-canvas-container canvas,
 .zzz-canvas-container img {
-    /* Estas 3 líneas garantizan que sean del mismo tamaño exacto */
     width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: contain; /* <-- Cambiado de 'cover' a 'contain' */
+    aspect-ratio: 16 / 9; /* Mantenimiento de proporción panorámica estándar */
+    object-fit: contain;  /* Asegura que la imagen/dibujo no se deforme */
     
-    background-color: #111; /* Fondo oscuro base */
+    background-color: #111;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
+    /* Efecto "Scanlines": Simulación de líneas de monitor antiguo mediante degradado repetitivo */
     background-image: repeating-linear-gradient(
         0deg,
         rgba(0, 0, 0, 0.1),
@@ -136,7 +159,8 @@ body.zzz-theme {
     );
     box-shadow: 0 0 25px rgba(0, 0, 0, 1) inset;
 }
-/* Pie de página */
+
+/* --- 8. PIE DE PÁGINA (FOOTER) --- */
 .zzz-footer {
     background-color: #000000;
     border-top: 2px solid #333;
